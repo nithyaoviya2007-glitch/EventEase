@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventEase | Event Management</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f5fb;
+      color: #252442;
+    }
+
+    header {
+      background: #29264f;
+      color: white;
+      padding: 22px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 27px;
+    }
+
+    header span {
+      color: #c5b8ff;
+    }
+
+    header p {
+      font-size: 13px;
+      color: #dedaf7;
+    }
+
+    .hero {
+      margin: 30px auto;
+      width: 84%;
+      padding: 40px;
+      background: linear-gradient(120deg, #39316f, #8262dc);
+      color: white;
+      border-radius: 18px;
+    }
+
+    .hero h2 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 84%;
+      margin: 0 auto 40px;
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 25px;
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px #2420470d;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d9d8e8;
+      border-radius: 8px;
+      outline-color: #8262dc;
+    }
+
+    button {
+      padding: 11px 15px;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-btn {
+      width: 100%;
+      margin-top: 20px;
+      background: #7454d6;
+      color: white;
+    }
+
+    .add-btn:hover {
+      background: #5e40bd;
+    }
+
+    .event {
+      border: 1px solid #e9e7f2;
+      border-left: 4px solid #8262dc;
+      border-radius: 10px;
+      padding: 17px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .event h3 {
+      margin-bottom: 8px;
+      overflow-wrap: anywhere;
+    }
+
+    .event p {
+      color: #77778c;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .edit-btn {
+      background: #eee9ff;
+      color: #6346c1;
+    }
+
+    .delete-btn {
+      background: #ffe8e8;
+      color: #c43c4b;
+    }
+
+    .status {
+      margin-bottom: 15px;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .search {
+      margin-bottom: 20px;
+    }
+
+    .empty {
+      padding: 25px 0;
+      color: #77778c;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      background: #29264f;
+      color: white;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        padding: 20px;
+      }
+
+      header p {
+        display: none;
+      }
+
+      .hero, .container {
+        width: 92%;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .event {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero h2 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Event<span>Ease</span></h1>
+    <p>YOUR EVENTS, ONE PLACE</p>
+  </header>
+
+  <section class="hero">
+    <h2>Make Every Event Count!</h2>
+    <p>Create, manage and organize your events with ease.</p>
+    <p>Powered by HTML, CSS, JavaScript and Express.js.</p>
+  </section>
+
+  <main class="container">
+
+    <section class="panel">
+      <h2 id="formTitle">Create an Event</h2>
+
+      <p id="status" class="status" role="status"></p>
+
+      <form id="eventForm">
+        <label for="title">Event Title</label>
+        <input id="title" name="title"
+               placeholder="e.g. College Music Fest"
+               required maxlength="100">
+
+        <label for="date">Event Date</label>
+        <input id="date" name="date" type="date" required>
+
+        <label for="location">Location</label>
+        <input id="location" name="location"
+               placeholder="e.g. Coimbatore"
+               required maxlength="100">
+
+        <label for="capacity">Capacity</label>
+        <input id="capacity" name="capacity"
+               type="number" min="1" step="1"
+               value="100" required>
+
+        <button class="add-btn" type="submit" id="submitBtn">
+          + Add Event
+        </button>
+
+        <button type="button" id="cancelBtn"
+                style="display:none; width:100%; margin-top:10px;">
+          Cancel Editing
+        </button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>All Events <span id="count">0</span></h2>
+
+      <input class="search" id="search"
+             placeholder="Search events by title or location...">
+
+      <div id="eventList">
+        <p class="empty">Loading events...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>EventEase | College REST API Project</p>
+    <p>Frontend: HTML, CSS and JavaScript | Backend: Express.js</p>
+  </footer>
+
+  <script>
+    const API_URL = "http://localhost:5000/api/events";
+
+    let events = [];
+    let editingId = null;
+
+    const eventForm = document.getElementById("eventForm");
+    const eventList = document.getElementById("eventList");
+    const statusBox = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+
+    function showStatus(message, isError = false) {
+      statusBox.textContent = message;
+      statusBox.style.color = isError ? "#c43c4b" : "#238455";
+    }
+
+    async function request(url, options = {}) {
+      const response = await fetch(url, options);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Request failed");
+      }
+
+      return data;
+    }
+
+    async function loadEvents() {
+      try {
+        events = await request(API_URL);
+        renderEvents();
+      } catch (error) {
+        eventList.innerHTML =
+          '<p class="empty">Could not connect to the API. ' +
+          'Start your Express server on port 5000 and refresh.</p>';
+        showStatus(error.message, true);
+      }
+    }
+
+    function renderEvents() {
+      const search = document.getElementById("search")
+        .value.trim().toLowerCase();
+
+      const filtered = events.filter(event =>
+        event.title.toLowerCase().includes(search) ||
+        event.location.toLowerCase().includes(search) ||
+        event.date.toLowerCase().includes(search)
+      );
+
+      document.getElementById("count").textContent = events.length;
+
+      eventList.replaceChildren();
+
+      if (filtered.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty";
+        empty.textContent = search
+          ? "No matching events found."
+          : "No events available. Create your first event!";
+        eventList.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(event => {
+        const card = document.createElement("article");
+        card.className = "event";
+
+        const details = document.createElement("div");
+        const title = document.createElement("h3");
+        title.textContent = event.title;
+
+        const date = document.createElement("p");
+        date.textContent = "📅 " + event.date;
+
+        const location = document.createElement("p");
+        location.textContent = "📍 " + event.location;
+
+        const capacity = document.createElement("p");
+        capacity.textContent = "👥 Capacity: " + event.capacity;
+
+        details.append(title, date, location, capacity);
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const edit = document.createElement("button");
+        edit.className = "edit-btn";
+        edit.textContent = "Edit";
+        edit.addEventListener("click", () => startEdit(event.id));
+
+        const del = document.createElement("button");
+        del.className = "delete-btn";
+        del.textContent = "Delete";
+        del.addEventListener("click", () => deleteEvent(event.id));
+
+        actions.append(edit, del);
+        card.append(details, actions);
+        eventList.appendChild(card);
+      });
+    }
+
+    eventForm.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const capacity = Number(document.getElementById("capacity").value);
+
+      const payload = {
+        title: document.getElementById("title").value.trim(),
+        date: document.getElementById("date").value,
+        location: document.getElementById("location").value.trim(),
+        capacity
+      };
+
+      if (!payload.title || !payload.date ||
+          !payload.location || !Number.isInteger(capacity) ||
+          capacity < 1) {
+        showStatus("Please enter valid details in every field.", true);
+        return;
+      }
+
+      const url = editingId === null
+        ? API_URL
+        : `${API_URL}/${editingId}`;
+
+      const method = editingId === null ? "POST" : "PUT";
+
+      try {
+        await request(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        showStatus(
+          editingId === null
+            ? "Event created successfully!"
+            : "Event updated successfully!"
+        );
+
+        resetForm();
+        await loadEvents();
+      } catch (error) {
+        showStatus(error.message, true);
+      }
+    });
+
+    function startEdit(id) {
+      const event = events.find(item => item.id === id);
+      if (!event) return;
+
+      editingId = id;
+      document.getElementById("title").value = event.title;
+      document.getElementById("date").value = event.date;
+      document.getElementById("location").value = event.location;
+      document.getElementById("capacity").value = event.capacity;
+
+      document.getElementById("formTitle").textContent = "Edit Event";
+      submitBtn.textContent = "Save Changes";
+      cancelBtn.style.display = "block";
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function deleteEvent(id) {
+      const event = events.find(item => item.id === id);
+      if (!event) return;
+
+      if (!confirm(`Delete "${event.title}"?`)) return;
+
+      try {
+        await request(`${API_URL}/${id}`, { method: "DELETE" });
+        showStatus("Event deleted successfully!");
+        await loadEvents();
+      } catch (error) {
+        showStatus(error.message, true);
+      }
+    }
+
+    function resetForm() {
+      editingId = null;
+      eventForm.reset();
+      document.getElementById("capacity").value = 100;
+      document.getElementById("formTitle").textContent = "Create an Event";
+      submitBtn.textContent = "+ Add Event";
+      cancelBtn.style.display = "none";
+    }
+
+    cancelBtn.addEventListener("click", resetForm);
+    document.getElementById("search").addEventListener("input", renderEvents);
+
+    loadEvents();
+  </script>
+
+</body>
+</html>
